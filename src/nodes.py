@@ -14,6 +14,10 @@ from src.hashing import ad_hoc_hash
 
 class Node(ABC):
     @abstractmethod
+    def __init__(self, idx: int) -> None:
+        self.idx = idx
+
+    @abstractmethod
     async def at_time(self, t: int) -> Optional[list[Message]]:
         """Method to be called at specific time step."""
 
@@ -32,7 +36,7 @@ class HonestNode(Node):
         self.idx = idx
         self.idxs = idxs
         self.block: Optional[Block] = None
-        self.nodes_voted: list[Node] = []
+        self.nodes_voted: list[int] = []
         self.votes_for_block = 0
 
     def _longest_notarized(self) -> list[Block]:
@@ -73,7 +77,6 @@ class HonestNode(Node):
     def _(self, content: Block) -> Optional[list[Message]]:
         self.block = content
         self.votes_for_block = 0
-        self.nodes_voted = []
         head = self._head_longest_notarized()
         if self.block.parent == head:
             vote = Vote(sender_idx=self.idx, block_id=self.block.block_id)
@@ -137,7 +140,8 @@ class HonestNode(Node):
                 block_to_notarize = copy.deepcopy(
                     self.block
                 )  # current block can be mutated in the future
-                self._notarize_block(block_to_notarize)  # mutation of notarized blocks
+                # mutation of notarized blocks
+                self._notarize_block(block_to_notarize)  # type: ignore
                 chains = self._chains()
                 self._finalize_blocks(chains)
 

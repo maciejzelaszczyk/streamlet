@@ -67,6 +67,3 @@ def test_offline():
     # there is an upper bound on this number
     chain_len = len(chains[0]) if len(chains) > 0 else 0
     assert chain_len <= (args.epochs - 1) - dishonest_leaders_count  # liveness
-
-
-test_offline()

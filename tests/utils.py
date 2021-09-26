@@ -1,10 +1,10 @@
 import networkx as nx
 
 from src.comms import Block
-from src.nodes import Node
+from src.nodes import HonestNode
 
 
-def blocks_finalized_union(nodes: list[Node]) -> list[Block]:
+def blocks_finalized_union(nodes: list[HonestNode]) -> list[Block]:
     blocks_finalized: list[Block] = []
     for node in nodes:
         blocks_finalized = blocks_finalized + node.final
@@ -39,7 +39,7 @@ def chains_from_graph(final: nx.DiGraph) -> list[list[Block]]:
     return chains
 
 
-def get_chains(nodes: list[Node]) -> list[list[Block]]:
+def get_chains(nodes: list[HonestNode]) -> list[list[Block]]:
     blocks_finalized = blocks_finalized_union(nodes)
     final = finalized_graph(blocks_finalized)
     chains = chains_from_graph(final)

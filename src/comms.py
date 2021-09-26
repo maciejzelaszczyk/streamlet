@@ -1,13 +1,13 @@
 from dataclasses import dataclass
-from typing import Union
+from typing import Optional, Union
 
 
 @dataclass(frozen=True)
 class Block:
     block_id: str
     epoch: int
-    parent: str
-    content: str
+    parent: Optional[str]
+    content: Optional[str]
 
 
 @dataclass(frozen=True)
