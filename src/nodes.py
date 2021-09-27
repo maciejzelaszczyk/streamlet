@@ -77,6 +77,7 @@ class HonestNode(Node):
     def _(self, content: Block) -> Optional[list[Message]]:
         self.block = content
         self.votes_for_block = 0
+        self.nodes_voted = []
         head = self._head_longest_notarized()
         if self.block.parent == head:
             vote = Vote(sender_idx=self.idx, block_id=self.block.block_id)
@@ -144,6 +145,7 @@ class HonestNode(Node):
                 self._notarize_block(block_to_notarize)  # type: ignore
                 chains = self._chains()
                 self._finalize_blocks(chains)
+        return None
 
     async def on_message_received(self, msg: Message) -> Optional[list[Message]]:
         messages = self._handle_content(msg.content)
